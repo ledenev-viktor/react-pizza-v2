@@ -1,7 +1,21 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { sort } from '../redux/slices/filterSlice';
 
+export const sortPoints = {
+  popular: {
+    name: 'популярности',
+    sortProperty: 'rating',
+  },
+  price: {
+    name: 'цене',
+    sortProperty: 'price',
+  },
+  alfabet: {
+    name: 'алфавиту',
+    sortProperty: 'alfabetic',
+  },
+};
 const Sort = () => {
   const [open, setOpen] = React.useState(false);
   // const [sortActive, setSortActive] = React.useState(0);
@@ -9,20 +23,14 @@ const Sort = () => {
   const sortActive = useSelector(state => state.filter.sort);
   const dispatch = useDispatch();
 
-  const sortPoints = {
-    popular: {
-      name: 'популярности',
-      sortProperty: 'rating',
-    },
-    price: {
-      name: 'цене',
-      sortProperty: 'price',
-    },
-    alfabet: {
-      name: 'алфавиту',
-      sortProperty: 'alfabetic',
-    },
-  };
+  const sortRef = useRef(null);
+
+  React.useEffect(()=> {
+    const onClick = e => sortRef.current.contains(e.target) || setOpen(false);
+      document.addEventListener('click', onClick);
+      return () => document.removeEventListener('click', onClick); // при ретерне выполняется unmount
+  }, [])
+
   
   const sortPointActive = sortActive.name;
 
@@ -35,9 +43,9 @@ const Sort = () => {
     setOpen(!open);
   };
   return (
-    <div className="sort">
+    <div ref={sortRef}  className="sort">
       <div className="sort__label" onClick={() => setOpen(!open)}>
-        <svg
+        <svg className={open ? "activeDown" : ""}
           width="10"
           height="6"
           viewBox="0 0 10 6"

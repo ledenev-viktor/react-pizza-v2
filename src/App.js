@@ -4,7 +4,7 @@ import { Header } from './components/header';
 import { Home } from './pages/Home';
 import { NotFound } from './pages/NotFound';
 import { Routes, Route } from 'react-router-dom';
-import { Cart } from './components/Cart';
+import { CartPage } from './pages/Cart';
 
 export const SearchContext = React.createContext('');
 
@@ -23,7 +23,7 @@ function App() {
                 element={<Home />}
               />
               <Route path="123" element={<h1>123</h1>} />
-              <Route path="cart" element={<Cart />} />
+              <Route path="cart" element={<CartPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
