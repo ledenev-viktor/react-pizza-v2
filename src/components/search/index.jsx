@@ -1,11 +1,8 @@
-import React from 'react';
-import { useRef } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import styles from './search.module.scss';
 import { setSearchValue } from '../../redux/slices/searchSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import debounce from 'lodash/debounce';
-import { useState } from 'react';
-import { useCallback } from 'react';
 
 
 const Search = () => {
@@ -16,12 +13,15 @@ const Search = () => {
   * для отображения элементов.
   * Возможно можно было бы воспользоваться redux-subscribe ???
   */ 
+  const dispatch = useDispatch();
+
   const inputRef = useRef(null);
   const [searchInputValue, setSearchInputValue] = useState('');
 
   const handleSetSearchInputValue = (e) => {
     setSearchInputValue(e.target.value);
     updateSearchValue(e.target.value);
+    
   };
   const handleClearSearchInputValue = () => {
     setSearchInputValue('');
@@ -29,7 +29,6 @@ const Search = () => {
     inputRef.current.focus();
   };
 
-  const dispatch = useDispatch();
   const updateSearchValue = useCallback(
     debounce((str) => {
       dispatch(setSearchValue(str));

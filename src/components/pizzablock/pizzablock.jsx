@@ -1,7 +1,7 @@
 import React from "react";
 import { Animation } from "@ledenev/react-animation";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem } from "../../redux/slices/cartSlice";
+import { addItem, cartItemByIdSelector } from "../../redux/slices/cartSlice";
 
 const PizzaBlock = ({
   id,
@@ -14,9 +14,7 @@ const PizzaBlock = ({
   rating,
 }) => {
   const dispatch = useDispatch();
-  const cartItem = useSelector((state) =>
-    state.cart.items.find((obj) => obj.id === id)
-  );
+  const cartItem = useSelector(cartItemByIdSelector(id));
   const addedCount = cartItem ? cartItem.count : 0;
 
   const typePizzas = ["тонкое", "традиционное"];
